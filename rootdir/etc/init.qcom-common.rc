@@ -319,7 +319,18 @@ on property:init.svc.bootanim=stopped
     write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
     write /dev/cpuctl/apps/cpu.notify_on_migrate 1
 
-    write /sys/block/mmcblk0/queue/scheduler row
+    write /proc/sys/vm/dirty_expire_centisecs 1000
+    write /proc/sys/vm/dirty_writeback_centisecs 1500
+
+    write /sys/block/mmcblk0/queue/scheduler deadline
+    write /sys/block/mmcblk0/queue/iosched/fifo_batch 1
+    write /sys/block/mmcblk0/queue/iosched/front_merges 0
+    write /sys/block/mmcblk0/queue/iosched/writes_starved 8
+
+    # Flash storage isn't a good entropy source, and only causes locking
+    # overhead in the kernel. Turn it off.
+    write /sys/block/mmcblk0/queue/add_random 0
+
     start mpdecision
 
 on property:init.svc.bootanim=running
