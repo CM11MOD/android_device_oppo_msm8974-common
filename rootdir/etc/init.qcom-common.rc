@@ -334,7 +334,8 @@ on property:init.svc.bootanim=stopped
     # overhead in the kernel. Turn it off.
     write /sys/block/mmcblk0/queue/add_random 0
 
-    start mpdecision
+    exec /system/bin/sh system/etc/mdpdecision_stop.sh
+    # start mpdecision
 
 on property:init.svc.bootanim=running
     # Switch to NOOP while booting
